@@ -11,7 +11,7 @@ const useClassifications = () => {
     classifications = null;
   }
 
-  console.log(classifications);
+  //console.log(classifications);
 
   return { classifications, mutate };
 };

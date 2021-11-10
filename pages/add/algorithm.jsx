@@ -1,13 +1,12 @@
 import React from "react";
-import { useHistory } from "react-router";
-import useClassifications from "../../../hooks/classifications";
-import aws from "../../../aws.json";
+import { useRouter } from "next/router";
+import useClassifications from "../../hooks/classifications";
 import { mutate } from "swr";
 import path from "path";
 
 const AddAlgorithm = (props) => {
   const { classifications } = useClassifications();
-  const history = useHistory();
+  const router = useRouter();
 
   const addAlgorithm = async () => {
     console.log("Adding algorithm");
@@ -17,13 +16,16 @@ const AddAlgorithm = (props) => {
     const body = { name, classification };
     console.log(body);
 
-    const res = await fetch(path.join(aws.uri, "/classifications/algorithms"), {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(body),
-    });
+    const res = await fetch(
+      path.join(process.env.awsUri, "/classifications/algorithms"),
+      {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(body),
+      }
+    );
     mutate("/classifications");
-    history.push("/");
+    router.push("/");
   };
 
   return (
@@ -32,7 +34,7 @@ const AddAlgorithm = (props) => {
         <div className="centered-hbox">
           <h4>Add Algorithm</h4>
         </div>
-        <form onsubmit="return false">
+        <form onSubmit={() => null}>
           <div className="form-group">
             <label>Name</label>
             <input
@@ -54,7 +56,7 @@ const AddAlgorithm = (props) => {
               ) : (
                 classifications.map((classification) => {
                   return (
-                    <option value={classification.id}>
+                    <option value={classification.id} key={classification.id}>
                       {classification.name}
                     </option>
                   );
@@ -74,7 +76,7 @@ const AddAlgorithm = (props) => {
             <button
               className="btn btn-secondary  form-button"
               type="button"
-              onClick={() => history.push("/")}
+              onClick={() => router.push("/")}
             >
               Cancel
             </button>

@@ -1,11 +1,10 @@
 import React, { useState } from "react";
 import path from "path";
-import aws from "../../aws.json";
-import { useHistory } from "react-router-dom";
+import { useRouter } from "next/router";
 import { mutate } from "swr";
 
 const Signup = (props) => {
-  const history = useHistory();
+  const router = useRouter();
   const [errorMsg, setErrorMsg] = useState("");
 
   const signup = async () => {
@@ -22,7 +21,7 @@ const Signup = (props) => {
     const body = { username, password };
     console.log(body);
 
-    const res = await fetch(path.join(aws.uri, "/users"), {
+    const res = await fetch(path.join(process.env.awsUri, "/users"), {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -39,11 +38,11 @@ const Signup = (props) => {
       setErrorMsg("Username taken, or other error!");
       return;
     }
-    document.cookie = `larissa=${sessionToken.replace(/\"/g, "")};`;
+    document.cookie = `larissa=${sessionToken.replace(/\"/g, "")}`;
     console.log(document.cookie);
 
     mutate("/me");
-    history.push("/");
+    router.push("/");
   };
   return (
     <div className="centered-page">
@@ -51,7 +50,7 @@ const Signup = (props) => {
         <div className="centered-hbox">
           <h4>Signup</h4>
         </div>
-        <form onsubmit="return false">
+        <form onSubmit={() => null}>
           <div className="form-group">
             <label>Username</label>
             <input
@@ -85,7 +84,7 @@ const Signup = (props) => {
             <button
               className="btn btn-secondary  form-button"
               type="button"
-              onClick={() => history.push("/")}
+              onClick={() => router.push("/")}
             >
               Cancel
             </button>

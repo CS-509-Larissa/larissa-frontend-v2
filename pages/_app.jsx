@@ -1,7 +1,15 @@
-import '../styles/globals.css'
+import "../styles/globals.css";
+import "bootstrap/dist/css/bootstrap.min.css";
 
-function MyApp({ Component, pageProps }) {
-  return <Component {...pageProps} />
-}
+import Nav from "../components/Nav";
 
-export default MyApp
+const App = ({ Component, pageProps }) => {
+  return (
+    <div className="vbox">
+      <Nav />
+      <Component {...pageProps} />
+    </div>
+  );
+};
+
+export default App;

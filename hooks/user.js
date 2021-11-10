@@ -7,6 +7,7 @@ const useUser = () => {
 
   try {
     user = JSON.parse(data);
+    console.log(`Logged in as ${user.username}`);
   } catch (error) {
     user = null;
   }

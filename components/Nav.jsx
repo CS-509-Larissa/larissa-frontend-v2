@@ -1,20 +1,21 @@
 import React from "react";
-import { Link, useHistory } from "react-router-dom";
+import { useRouter } from "next/router";
+import Link from "next/link";
 import useUser from "../hooks/user";
 
 const Nav = (props) => {
   const { user, mutate, error } = useUser();
-  const history = useHistory();
+  const router = useRouter();
 
   return (
     <div className="navigation">
       <div className="nav-left">
-        <Link to="/">Home</Link>
+        <Link href="/">Home</Link>
       </div>
       <>
         {user ? (
           <div>
-            Hello, {user.username}{" "}
+            Hello, {user.username}
             <button
               className="btn btn-danger"
               onClick={() => {
@@ -30,7 +31,7 @@ const Nav = (props) => {
             <button
               className="btn btn-primary form-button"
               onClick={() => {
-                history.push("/login");
+                router.push("/login");
               }}
             >
               Login
@@ -38,7 +39,7 @@ const Nav = (props) => {
             <button
               className="btn btn-secondary form-button"
               onClick={() => {
-                history.push("/signup");
+                router.push("/signup");
               }}
             >
               Signup

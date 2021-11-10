@@ -1,11 +1,10 @@
 import React, { useState } from "react";
-import { useHistory } from "react-router";
+import { useRouter } from "next/router";
 import { mutate } from "swr";
 import path from "path";
-import aws from "../../aws.json";
 
 const Login = (props) => {
-  const history = useHistory();
+  const router = useRouter();
   const [errorMsg, setErrorMsg] = useState("");
 
   const login = async () => {
@@ -15,7 +14,7 @@ const Login = (props) => {
     const body = { username, password };
     console.log(body);
 
-    const res = await fetch(path.join(aws.uri, "/me"), {
+    const res = await fetch(path.join(process.env.awsUri, "/me"), {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(body),
@@ -29,10 +28,10 @@ const Login = (props) => {
 
       return;
     }
-    document.cookie = `larissa=${sessionToken.replace(/\"/g, "")};`;
+    document.cookie = `larissa=${sessionToken.replace(/\"/g, "")}`;
     console.log(document.cookie);
     mutate("/me");
-    history.push("/");
+    router.push("/");
   };
 
   return (
@@ -41,7 +40,7 @@ const Login = (props) => {
         <div className="centered-hbox">
           <h4>Login</h4>
         </div>
-        <form onsubmit="return false">
+        <form onSubmit={() => null}>
           <div className="form-group">
             <label>Username</label>
             <input
@@ -67,7 +66,7 @@ const Login = (props) => {
             <button
               className="btn btn-secondary  form-button"
               type="button"
-              onClick={() => history.push("/")}
+              onClick={() => router.push("/")}
             >
               Cancel
             </button>

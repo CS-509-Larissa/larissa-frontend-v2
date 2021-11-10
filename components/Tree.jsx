@@ -1,5 +1,6 @@
 import React from "react";
-import { Link, useHistory } from "react-router-dom";
+import { useRouter } from "next/router";
+import Link from "next/link";
 
 import TreeView from "react-treeview";
 import useClassifications from "../hooks/classifications";
@@ -10,10 +11,11 @@ const ClassificationTree = (props) => {
     <TreeView
       nodeLabel={<b>{props.classification.name}</b>}
       defaultCollapsed={false}
+      key={props.classification.id}
     >
       {props.classification.algorithms.map((node, i) => (
-        <div className="info">
-          <Link to={`/algorithm/${node.id}`}>{node.name}</Link>
+        <div className="info" key={node.id}>
+          <Link href={`/algorithm/${node.id}`}>{node.name}</Link>
         </div>
       ))}
     </TreeView>
@@ -22,7 +24,7 @@ const ClassificationTree = (props) => {
 
 const Tree = (props) => {
   const { user } = useUser();
-  const history = useHistory();
+  const router = useRouter();
   const { classifications } = useClassifications();
   /*
   const dummyData = [
@@ -66,7 +68,7 @@ const Tree = (props) => {
           className="btn btn-primary"
           style={{ margin: "2px" }}
           onClick={() => {
-            history.push("/add/classification");
+            router.push("/add/classification");
           }}
           disabled={user === null}
         >
@@ -76,7 +78,7 @@ const Tree = (props) => {
           className="btn btn-success"
           style={{ margin: "2px" }}
           onClick={() => {
-            history.push("/add/algorithm");
+            router.push("/add/algorithm");
           }}
           disabled={user === null}
         >
@@ -87,7 +89,11 @@ const Tree = (props) => {
         <div>Loading ontology</div>
       ) : (
         classifications.map((node, i) => (
-          <ClassificationTree classification={node} />
+          <ClassificationTree
+            classification={node}
+            tree={node.id}
+            key={node.id}
+          />
         ))
       )}
     </div>
