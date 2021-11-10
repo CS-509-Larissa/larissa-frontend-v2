@@ -11,7 +11,20 @@ const AlgorithmView = () => {
   const { user } = useUser();
 
   const { algorithm } = useAlgorithm(id);
-  console.log(algorithm);
+  //console.log(algorithm);
+
+  const addImplementation = async () => {
+    console.log(`Adding implementation for algorihtm ${id}`);
+
+    const fileElement = document.getElementById("file");
+    if (fileElement.isDefaultNamespace.length === 0) {
+      console.log("No file selected, aborting");
+      return;
+    }
+
+    const reader = new FileReader();
+    reader.readAsText(fileElement.files[0]);
+  };
 
   return (
     <div className="hbox">
@@ -38,6 +51,7 @@ const AlgorithmView = () => {
               className="form-control"
               type="file"
               disabled={user === null}
+              id="file"
             />
 
             <button
