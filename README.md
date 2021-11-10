@@ -1,34 +1,25 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# CS 509 Team Larissa
 
-## Getting Started
+## Use Cases
 
-First, run the development server:
+### User Registration
 
-```bash
-npm run dev
-# or
-yarn dev
-```
+**Since our lambda functions take awhile, the webpage will not know you are logged in until the `/me` endpoint responds. Just give it a couple minutes if you are using it for the first time in awhile**
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+To sign up, click the signup button in the top bar. You will fill out a form with a username and password, then click submit. Once you are registered, you will be sent back to the homepage.
 
-You can start editing the page by modifying `pages/index.js`. The page auto-updates as you edit the file.
+To login, click the login button in the top bar. You will fill out a similar form to the one for signing up, and then you will be returned to the homepage once logged in.
 
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.js`.
+To logout, click the logout button in the top bar. It will only be visible if you are already logged in.
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
+### Create Top-Level Classification
 
-## Learn More
+To create a classification, click the blue "Add Classification" button on the left side of the screen. It will give you the option to set a name, but it won't let you pick a parent classification since only top-level classifications are supported.
 
-To learn more about Next.js, take a look at the following resources:
+### Create Algorithm
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+To create an algorithm, click the green "Add Algorithm" button ont he left side of teh screen. It will take you to a form where you will fill out details about the algorithm, and select the proper classification.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+### Create Implementation
 
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+To create an implementation, select an existing algorithm from the treeview on the left side of the screen. Once the algorithm page loads, you will see a section called **Implementations**. Below it, there is a form where you can upload a file. Upload a text file, then click the yellow "Upload Implementation" button

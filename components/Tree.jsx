@@ -96,6 +96,14 @@ const Tree = (props) => {
           />
         ))
       )}
+      <div style={{ paddingTop: "20px" }}>
+        <button disabled className="btn btn-danger">
+          Remove classification
+        </button>
+        <p>
+          <i>This will take you to a form</i>
+        </p>
+      </div>
     </div>
   );
 };

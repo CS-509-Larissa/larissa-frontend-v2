@@ -33,7 +33,7 @@ const AddClassification = (props) => {
             <input
               type="text"
               className="form-control"
-              placeholder="Uniform Cost Search"
+              placeholder="Search Algorithms"
               id="name"
             />
           </div>
