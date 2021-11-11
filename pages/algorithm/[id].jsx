@@ -1,7 +1,6 @@
 import { useRouter } from "next/router";
 import React from "react";
 import Tree from "../../components/Tree";
-import path from "path";
 
 import useAlgorithm from "../../hooks/algorithm";
 import useUser from "../../hooks/user";
@@ -38,10 +37,7 @@ const AlgorithmView = () => {
       console.log(body);
 
       const res = await fetch(
-        path.join(
-          process.env.awsUri,
-          "/classifications/algorithms/implementation"
-        ),
+        process.env.awsUri + "/classifications/algorithms/implementation",
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },

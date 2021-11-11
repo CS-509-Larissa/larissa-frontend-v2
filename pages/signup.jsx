@@ -1,7 +1,7 @@
 import React, { useState } from "react";
-import path from "path";
 import { useRouter } from "next/router";
 import { mutate } from "swr";
+import cookie from "js-cookie";
 
 const Signup = (props) => {
   const router = useRouter();
@@ -21,7 +21,7 @@ const Signup = (props) => {
     const body = { username, password };
     console.log(body);
 
-    const res = await fetch(path.join(process.env.awsUri, "/users"), {
+    const res = await fetch(process.env.awsUri + "/users", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -38,7 +38,8 @@ const Signup = (props) => {
       setErrorMsg("Username taken, or other error!");
       return;
     }
-    document.cookie = `larissa=${sessionToken.replace(/\"/g, "")}`;
+    cookie.set("larissa", sessionToken.replace(/\"/g, ""));
+    //document.cookie = `larissa=${sessionToken.replace(/\"/g, "")}`;
     console.log(document.cookie);
 
     mutate("/me");

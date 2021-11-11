@@ -1,4 +1,3 @@
-import path from "path";
 import React from "react";
 import { useRouter } from "next/router";
 import { mutate } from "swr";
@@ -12,7 +11,7 @@ const AddClassification = (props) => {
     const body = { name };
     console.log(body);
 
-    const res = await fetch(path.join(process.env.awsUri, "/classifications"), {
+    const res = await fetch(process.env.awsUri + "/classifications", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(body),

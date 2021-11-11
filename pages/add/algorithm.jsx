@@ -2,7 +2,6 @@ import React from "react";
 import { useRouter } from "next/router";
 import useClassifications from "../../hooks/classifications";
 import { mutate } from "swr";
-import path from "path";
 
 const AddAlgorithm = (props) => {
   const { classifications } = useClassifications();
@@ -17,7 +16,7 @@ const AddAlgorithm = (props) => {
     console.log(body);
 
     const res = await fetch(
-      path.join(process.env.awsUri, "/classifications/algorithms"),
+      process.env.awsUri + "/classifications/algorithms",
       {
         method: "POST",
         headers: { "Content-Type": "application/json" },
