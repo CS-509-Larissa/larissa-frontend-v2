@@ -15,7 +15,7 @@ const Login = (props) => {
     const body = { username, password };
     console.log(body);
 
-    const res = await fetch(path.join(process.env.awsUri, "/me"), {
+    const res = await fetch(process.env.awsUri + "/me", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(body),
