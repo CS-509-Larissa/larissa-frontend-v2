@@ -1,7 +1,7 @@
 import path from "path";
 
 const fetcher = (req) => {
-  const url = path.join(process.env.awsUri, req);
+  const url = process.env.awsUri + req;
   console.log(`Fetching ${url}`);
   const tokenCookie = document.cookie;
   console.log(tokenCookie);
