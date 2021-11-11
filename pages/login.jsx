@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useRouter } from "next/router";
 import { mutate } from "swr";
 import path from "path";
+import cookie from "js-cookie";
 
 const Login = (props) => {
   const router = useRouter();
@@ -28,8 +29,10 @@ const Login = (props) => {
 
       return;
     }
-    document.cookie = `larissa=${sessionToken.replace(/\"/g, "")}`;
+    //document.cookie = `larissa=${sessionToken.replace(/\"/g, "")}`;
+    cookie.set("larissa", sessionToken.replace(/\"/g, ""));
     console.log(document.cookie);
+    console.log(cookie.get("larissa"));
     mutate("/me");
     router.push("/");
   };
