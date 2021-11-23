@@ -1,11 +1,13 @@
 import React, { useState } from "react";
 import { useRouter } from "next/router";
-import { mutate } from "swr";
+import { useSWRConfig } from "swr";
+
 import cookie from "js-cookie";
 
 const Signup = (props) => {
   const router = useRouter();
   const [errorMsg, setErrorMsg] = useState("");
+  const { mutate } = useSWRConfig();
 
   const signup = async () => {
     const username = document.getElementById("username").value;
@@ -42,7 +44,7 @@ const Signup = (props) => {
     //document.cookie = `larissa=${sessionToken.replace(/\"/g, "")}`;
     console.log(document.cookie);
 
-    mutate("/me");
+    mutate("/me", { username });
     router.push("/");
   };
   return (
