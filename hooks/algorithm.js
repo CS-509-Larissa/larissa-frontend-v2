@@ -2,7 +2,7 @@ import useSWR from "swr";
 import fetcher from "../fetcher";
 
 const useAlgorithm = (id) => {
-  const { data, mutate } = useSWR(`/classifications/algorithms/${id}`, fetcher);
+  const { data, mutate } = useSWR(`/algorithms/${id}`, fetcher);
   let algorithm = null;
 
   console.log(data);
