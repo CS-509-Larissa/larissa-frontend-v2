@@ -36,14 +36,11 @@ const AlgorithmView = () => {
       const body = { file, name, algo_id };
       console.log(body);
 
-      const res = await fetch(
-        process.env.awsUri + "/classifications/algorithms/implementation",
-        {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(body),
-        }
-      );
+      const res = await fetch(process.env.awsUri + "/implementation", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(body),
+      });
       mutate();
     };
     reader.onerror = (error) => reject(error);

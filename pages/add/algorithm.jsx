@@ -15,14 +15,11 @@ const AddAlgorithm = (props) => {
     const body = { name, classification };
     console.log(body);
 
-    const res = await fetch(
-      process.env.awsUri + "/classifications/algorithms",
-      {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(body),
-      }
-    );
+    const res = await fetch(process.env.awsUri + "/algorithms", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(body),
+    });
     mutate("/classifications");
     router.push("/");
   };
