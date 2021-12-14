@@ -1,6 +1,7 @@
 import React from "react";
 import { useRouter } from "next/router";
 import useClassifications from "../../hooks/classifications";
+import flattenClassifications from "../../util/flattenClassifications";
 import { mutate } from "swr";
 
 const AddAlgorithm = (props) => {
@@ -15,9 +16,13 @@ const AddAlgorithm = (props) => {
     const body = { name, classification };
     console.log(body);
 
+    const tokenCookie = document.cookie;
     const res = await fetch(process.env.awsUri + "/algorithms", {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
+      headers: {
+        "Content-Type": "application/json",
+        "Session-Token": tokenCookie,
+      },
       body: JSON.stringify(body),
     });
     mutate("/classifications");
@@ -50,10 +55,10 @@ const AddAlgorithm = (props) => {
               {classifications === null ? (
                 <></>
               ) : (
-                classifications.map((classification) => {
+                flattenClassifications(classifications).map((c) => {
                   return (
-                    <option value={classification.id} key={classification.id}>
-                      {classification.name}
+                    <option value={c.id} key={c.id}>
+                      {c.name}
                     </option>
                   );
                 })

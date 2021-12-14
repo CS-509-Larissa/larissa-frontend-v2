@@ -49,7 +49,7 @@ const Login = (props) => {
             <input
               type="text"
               className="form-control"
-              placeholder="jack"
+              placeholder="george"
               id="username"
             />
           </div>

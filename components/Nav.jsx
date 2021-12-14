@@ -3,6 +3,8 @@ import { useRouter } from "next/router";
 import Link from "next/link";
 import useUser from "../hooks/user";
 
+import { FaHome } from "react-icons/fa";
+
 const Nav = (props) => {
   const { user, mutate, error } = useUser();
   const router = useRouter();
@@ -11,6 +13,8 @@ const Nav = (props) => {
     <div className="navigation">
       <div className="nav-left">
         <Link href="/">Home</Link>
+        {"     "}
+        <Link href="/admin">Admin</Link>
       </div>
       <>
         {user ? (

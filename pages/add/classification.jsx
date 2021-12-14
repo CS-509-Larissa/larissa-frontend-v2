@@ -1,19 +1,27 @@
 import React from "react";
 import { useRouter } from "next/router";
 import { mutate } from "swr";
+import useClassifications from "../../hooks/classifications";
+import flattenClassifications from "../../util/flattenClassifications";
 
 const AddClassification = (props) => {
   const router = useRouter();
+  const { classifications } = useClassifications();
 
   const addClassification = async () => {
     const name = document.getElementById("name").value;
+    const parent = document.getElementById("parent").value;
 
-    const body = { name };
+    const body = { name, parent };
     console.log(body);
 
+    const tokenCookie = document.cookie;
     const res = await fetch(process.env.awsUri + "/classifications", {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
+      headers: {
+        "Content-Type": "application/json",
+        "Session-Token": tokenCookie,
+      },
       body: JSON.stringify(body),
     });
 
@@ -38,10 +46,25 @@ const AddClassification = (props) => {
           </div>
           <div className="form-group">
             <label>Parent</label>
-            <p>
-              <i>Only top-level classifications supported at this time</i>
-            </p>
-            <select disabled className="form-select"></select>
+            <select className="form-select" id="parent">
+              {classifications ? (
+                [
+                  <option value="none" key="0">
+                    None
+                  </option>,
+                ].concat(
+                  flattenClassifications(classifications).map((c) => {
+                    return (
+                      <option value={c.id} key={c.id}>
+                        {c.name}
+                      </option>
+                    );
+                  })
+                )
+              ) : (
+                <></>
+              )}
+            </select>
           </div>
 
           <div className="button-row">
