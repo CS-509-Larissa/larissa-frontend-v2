@@ -1,14 +1,18 @@
-import "../styles/globals.css";
-import "bootstrap/dist/css/bootstrap.min.css";
+//import "bootstrap/dist/css/bootstrap.min.css";
+import "../scss/globals.scss";
+
+import { SSRProvider } from "@react-aria/ssr";
 
 import Nav from "../components/Nav";
 
 const App = ({ Component, pageProps }) => {
   return (
-    <div className="vbox">
-      <Nav />
-      <Component {...pageProps} />
-    </div>
+    <SSRProvider>
+      <div className="vbox">
+        <Nav />
+        <Component {...pageProps} />
+      </div>
+    </SSRProvider>
   );
 };
 
