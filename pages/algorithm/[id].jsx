@@ -144,7 +144,7 @@ const AlgorithmView = () => {
                   className="btn btn-danger mx-auto"
                   onClick={deleteAlgorithm}
                 >
-                  Delete Algorithm
+                  Delete
                 </button>
               </div>
             </TabPanel>
