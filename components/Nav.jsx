@@ -2,6 +2,7 @@ import React from "react";
 import { useRouter } from "next/router";
 import Link from "next/link";
 import useUser from "../hooks/user";
+import cookie from "js-cookie";
 
 const Nav = (props) => {
   const { user, mutate, error } = useUser();
@@ -25,8 +26,8 @@ const Nav = (props) => {
             <button
               className="btn btn-danger"
               onClick={() => {
-                document.cookie = "larissa=badcookielol";
-                mutate();
+                cookie.set("larissa", "badcookielol");
+                mutate(null);
               }}
             >
               Logout
