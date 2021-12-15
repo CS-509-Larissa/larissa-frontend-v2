@@ -48,9 +48,9 @@ const Signup = (props) => {
     router.push("/");
   };
   return (
-    <div className="centered-page">
-      <div className="form-container">
-        <div className="centered-hbox">
+    <div className="form-container">
+      <div className="form">
+        <div className="hbox--centered">
           <h4>Signup</h4>
         </div>
         <form onSubmit={() => null}>
@@ -76,7 +76,7 @@ const Signup = (props) => {
             />
           </div>
           <p className="text-danger">{errorMsg}</p>
-          <div className="button-row">
+          <div className="hbox--centered">
             <button
               type="button"
               className="btn btn-primary form-button"

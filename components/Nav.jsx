@@ -3,23 +3,25 @@ import { useRouter } from "next/router";
 import Link from "next/link";
 import useUser from "../hooks/user";
 
-import { FaHome } from "react-icons/fa";
-
 const Nav = (props) => {
   const { user, mutate, error } = useUser();
   const router = useRouter();
 
   return (
-    <div className="navigation">
-      <div className="nav-left">
-        <Link href="/">Home</Link>
-        {"     "}
-        <Link href="/admin">Admin</Link>
-      </div>
-      <>
+    <div className="nav-container">
+      <div className="nav">
+        <div className="hbox">
+          <div className="nav-link" onClick={() => router.push("/")}>
+            Home
+          </div>
+          <div className="nav-link" onClick={() => router.push("/admin")}>
+            Admin
+          </div>
+        </div>
+
         {user ? (
-          <div>
-            Hello, {user.username}
+          <div className="hbox">
+            <div className="nav-welcome">Hello, {user.username}</div>
             <button
               className="btn btn-danger"
               onClick={() => {
@@ -31,9 +33,9 @@ const Nav = (props) => {
             </button>
           </div>
         ) : (
-          <div>
+          <div className="hbox">
             <button
-              className="btn btn-primary form-button"
+              className="btn btn-primary form-button nav-button"
               onClick={() => {
                 router.push("/login");
               }}
@@ -41,7 +43,7 @@ const Nav = (props) => {
               Login
             </button>
             <button
-              className="btn btn-secondary form-button"
+              className="btn btn-secondary form-button nav-button"
               onClick={() => {
                 router.push("/signup");
               }}
@@ -50,7 +52,7 @@ const Nav = (props) => {
             </button>
           </div>
         )}
-      </>
+      </div>
     </div>
   );
 };

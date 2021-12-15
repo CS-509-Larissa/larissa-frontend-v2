@@ -8,7 +8,7 @@ import Nav from "../components/Nav";
 const App = ({ Component, pageProps }) => {
   return (
     <SSRProvider>
-      <div className="vbox">
+      <div className="global-container">
         <Nav />
         <Component {...pageProps} />
       </div>

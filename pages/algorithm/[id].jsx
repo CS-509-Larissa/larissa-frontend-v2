@@ -9,6 +9,7 @@ import { v4 as uuidv4 } from "uuid";
 
 import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
 import "react-tabs/style/react-tabs.css";
+import Loading from "../../components/Loading";
 
 const AlgorithmView = () => {
   const router = useRouter();
@@ -65,93 +66,95 @@ const AlgorithmView = () => {
   };
 
   return (
-    <div className="hbox">
+    <>
       <Tree />
-      {algorithm === null ? (
-        <i>Loading algorithm {id}</i>
-      ) : (
-        <div
-          style={{ display: "flex", flexDirection: "column", padding: "10px" }}
-        >
-          <h1>{algorithm.name}</h1>
-          <p>
-            <b>Algorithm ID: </b> {algorithm.id}
-          </p>
-          <p>
-            <b>Classification ID: </b> {algorithm.classification}
-          </p>
+      <div className="main-container">
+        <div className="main">
+          {algorithm ? (
+            <div className="main-view">
+              <h1>{algorithm.name}</h1>
+              <p>
+                <b>Algorithm ID: </b> {algorithm.id}
+              </p>
+              <p>
+                <b>Classification ID: </b> {algorithm.classification}
+              </p>
 
-          <Tabs>
-            <TabList>
-              <Tab>Implementations</Tab>
-              <Tab>Problem Instances</Tab>
-              <Tab>Advanced</Tab>
-            </TabList>
+              <Tabs>
+                <TabList>
+                  <Tab>Implementations</Tab>
+                  <Tab>Problem Instances</Tab>
+                  <Tab>Advanced</Tab>
+                </TabList>
 
-            <TabPanel>
-              <h2>Implementations</h2>
-              {algorithm.implementations.length === 0 ? (
-                <p>
-                  <i>No implementations found</i>
-                </p>
-              ) : (
-                <ul>
-                  {algorithm.implementations.map((imp, i) => {
-                    return (
-                      <li key={i} style={{ marginTop: "10px" }}>
-                        <a href={imp}>{imp}</a>
-                        <button
-                          className="btn btn-danger"
-                          style={{ marginLeft: "10px" }}
-                          disabled
-                        >
-                          Delete
-                        </button>
-                      </li>
-                    );
-                  })}
-                </ul>
-              )}
-              <div>
-                <input
-                  className="form-control"
-                  type="file"
-                  disabled={user === null}
-                  id="file"
-                />
+                <TabPanel>
+                  <h2>Implementations</h2>
+                  {algorithm.implementations.length === 0 ? (
+                    <p>
+                      <i>No implementations found</i>
+                    </p>
+                  ) : (
+                    <ul>
+                      {algorithm.implementations.map((imp, i) => {
+                        return (
+                          <li key={i} style={{ marginTop: "10px" }}>
+                            <a href={imp}>{imp}</a>
+                            <button
+                              className="btn btn-danger"
+                              style={{ marginLeft: "10px" }}
+                              disabled
+                            >
+                              Delete
+                            </button>
+                          </li>
+                        );
+                      })}
+                    </ul>
+                  )}
+                  <div>
+                    <input
+                      className="form-control"
+                      type="file"
+                      disabled={user === null}
+                      id="file"
+                    />
 
-                <button
-                  className="btn btn-warning"
-                  style={{ marginTop: "10px" }}
-                  disabled={user === null}
-                  onClick={addImplementation}
-                >
-                  Upload Implementation
-                </button>
-              </div>
-            </TabPanel>
-            <TabPanel>
-              <h2>Problem Instances</h2>
-              <div>
-                <button disabled className="btn btn-warning">
-                  Add Instance
-                </button>
-              </div>
-            </TabPanel>
-            <TabPanel>
-              <div>
-                <button
-                  className="btn btn-danger mx-auto"
-                  onClick={deleteAlgorithm}
-                >
-                  Delete
-                </button>
-              </div>
-            </TabPanel>
-          </Tabs>
+                    <button
+                      className="btn btn-warning"
+                      style={{ marginTop: "10px" }}
+                      disabled={user === null}
+                      onClick={addImplementation}
+                    >
+                      Upload Implementation
+                    </button>
+                  </div>
+                </TabPanel>
+                <TabPanel>
+                  <h2>Problem Instances</h2>
+                  <div>
+                    <button disabled className="btn btn-warning">
+                      Add Instance
+                    </button>
+                  </div>
+                </TabPanel>
+                <TabPanel>
+                  <div>
+                    <button
+                      className="btn btn-danger mx-auto"
+                      onClick={deleteAlgorithm}
+                    >
+                      Delete
+                    </button>
+                  </div>
+                </TabPanel>
+              </Tabs>
+            </div>
+          ) : (
+            <Loading message={`Loading algorithm ${id}`} />
+          )}
         </div>
-      )}
-    </div>
+      </div>
+    </>
   );
 };
 

@@ -7,16 +7,21 @@ import useClassifications from "../hooks/classifications";
 import useUser from "../hooks/user";
 
 import { Dropdown } from "react-bootstrap";
+import Loading from "./Loading";
 
 const ClassificationTree = (props) => {
+  const router = useRouter();
   return (
     <TreeView
       nodeLabel={
-        <b>
-          <Link href={`/classification/${props.classification.id}`}>
-            {props.classification.name}
-          </Link>
-        </b>
+        <span
+          className="classification-link"
+          onClick={() =>
+            router.push(`/classification/${props.classification.id}`)
+          }
+        >
+          {props.classification.name}
+        </span>
       }
       defaultCollapsed={false}
       key={props.classification.id}
@@ -25,14 +30,21 @@ const ClassificationTree = (props) => {
         <ClassificationTree classification={node} key={node.id} />
       ))}
       {props.classification.algorithms.map((node, i) => (
-        <div className="info" key={node.id}>
-          <Link href={`/algorithm/${node.id}`}>{node.name}</Link>
-        </div>
+        <span
+          className="algorithm-link"
+          onClick={() => router.push(`/algorithm/${node.id}`)}
+          key={node.id}
+        >
+          {node.name}
+        </span>
       ))}
     </TreeView>
   );
 };
 
+/*
+
+        */
 const Tree = (props) => {
   const { user } = useUser();
   const router = useRouter();
@@ -73,33 +85,35 @@ const Tree = (props) => {
   ];
   */
   return (
-    <div className="treeview-container">
-      <div className="hbox">
-        <Dropdown style={{ margin: "5px" }}>
-          <Dropdown.Toggle variant="primary" id="dropdown-basic">
-            Add New
-          </Dropdown.Toggle>
+    <div className="tree-container">
+      <div className="tree">
+        <div style={{ marginBottom: "5px" }}>
+          <Dropdown>
+            <Dropdown.Toggle variant="primary" id="dropdown-basic">
+              Add New
+            </Dropdown.Toggle>
 
-          <Dropdown.Menu>
-            <Dropdown.Item href="/add/classification">
-              Classification
-            </Dropdown.Item>
-            <Dropdown.Item href="/add/algorithm">Algorithm</Dropdown.Item>
-            <Dropdown.Item>Benchmark</Dropdown.Item>
-          </Dropdown.Menu>
-        </Dropdown>
+            <Dropdown.Menu>
+              <Dropdown.Item href="/add/classification">
+                Classification
+              </Dropdown.Item>
+              <Dropdown.Item href="/add/algorithm">Algorithm</Dropdown.Item>
+              <Dropdown.Item>Benchmark</Dropdown.Item>
+            </Dropdown.Menu>
+          </Dropdown>
+        </div>
+        {classifications === null ? (
+          <Loading message="Loading ontology" />
+        ) : (
+          classifications.map((node, i) => (
+            <ClassificationTree
+              classification={node}
+              tree={node.id}
+              key={node.id}
+            />
+          ))
+        )}
       </div>
-      {classifications === null ? (
-        <div>Loading ontology</div>
-      ) : (
-        classifications.map((node, i) => (
-          <ClassificationTree
-            classification={node}
-            tree={node.id}
-            key={node.id}
-          />
-        ))
-      )}
     </div>
   );
 };
