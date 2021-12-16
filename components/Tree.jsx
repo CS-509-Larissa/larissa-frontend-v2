@@ -88,7 +88,7 @@ const Tree = (props) => {
     <div className="tree-container">
       <div className="tree">
         <div style={{ marginBottom: "5px" }}>
-          <Dropdown>
+          <Dropdown disabled={user === null}>
             <Dropdown.Toggle variant="primary" id="dropdown-basic">
               Add New
             </Dropdown.Toggle>

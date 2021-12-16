@@ -1,5 +1,5 @@
 import { useRouter } from "next/router";
-import React from "react";
+import React, { useState } from "react";
 import Tree from "../../components/Tree";
 
 import useAlgorithm from "../../hooks/algorithm";
@@ -10,14 +10,45 @@ import { v4 as uuidv4 } from "uuid";
 import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
 import "react-tabs/style/react-tabs.css";
 import Loading from "../../components/Loading";
+import useClassifications from "../../hooks/classifications";
+import flattenClassifications from "../../util/flattenClassifications";
 
 const AlgorithmView = () => {
   const router = useRouter();
   const { id } = router.query;
   const { user } = useUser();
 
-  const { algorithm, mutate } = useAlgorithm(id);
+  const [isReclassifying, setIsReclassifying] = useState(false);
+
+  const { classifications, mutate: mutateClassifications } =
+    useClassifications();
+  const { algorithm, mutate: mutateAlgorithm } = useAlgorithm(id);
   //console.log(algorithm);
+
+  const reclassify = async () => {
+    const tokenCookie = document.cookie;
+    const classificationId = document.getElementById("newClassification").value;
+
+    const body = { algoID: algorithm.id, newClassification: classificationId };
+    console.log(body);
+    setIsReclassifying(true);
+
+    const res = await fetch(
+      process.env.awsUri + `/algorithms/${algorithm.id}`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Session-Token": tokenCookie,
+        },
+        body: JSON.stringify(body),
+      }
+    );
+    console.log(await res.text());
+    setIsReclassifying(false);
+    mutateClassifications();
+    mutateAlgorithm();
+  };
 
   const deleteAlgorithm = async () => {
     const tokenCookie = document.cookie;
@@ -29,7 +60,7 @@ const AlgorithmView = () => {
       },
     });
     console.log(await res.text());
-    mutate("/classifications");
+    mutateClassifications();
     router.push("/");
   };
 
@@ -48,10 +79,12 @@ const AlgorithmView = () => {
 
       const file = event.target.result;
 
+      const language = document.getElementById("language").value;
+
       const name = uuidv4();
       const algo_id = id;
 
-      const body = { file, name, algo_id };
+      const body = { file, name, algo_id, language };
       console.log(body);
 
       const res = await fetch(process.env.awsUri + "/implementation", {
@@ -84,6 +117,7 @@ const AlgorithmView = () => {
                 <TabList>
                   <Tab>Implementations</Tab>
                   <Tab>Problem Instances</Tab>
+                  <Tab>Benchmarks</Tab>
                   <Tab>Advanced</Tab>
                 </TabList>
 
@@ -112,7 +146,21 @@ const AlgorithmView = () => {
                     </ul>
                   )}
                   <div>
+                    <hr />
+                    <h4>Add Implementation</h4>
+                    <div className="hbox">
+                      <b>Language: </b>
+                      <input
+                        className="form-control"
+                        type="text"
+                        id="language"
+                        placeholder="java"
+                        style={{ marginLeft: "10px" }}
+                      />
+                    </div>
+
                     <input
+                      style={{ marginTop: "10px" }}
                       className="form-control"
                       type="file"
                       disabled={user === null}
@@ -125,27 +173,94 @@ const AlgorithmView = () => {
                       disabled={user === null}
                       onClick={addImplementation}
                     >
-                      Upload Implementation
+                      Add Implementation
                     </button>
                   </div>
                 </TabPanel>
                 <TabPanel>
+                  {/* GETALGORITHM NEEDS TO RETURN INSTANCES NOW*/}
+
                   <h2>Problem Instances</h2>
                   <div>
-                    <button disabled className="btn btn-warning">
+                    <hr />
+                    <h4>Add Problem Instance</h4>
+                    <div className="hbox">
+                      <b>Name: </b>
+                      <input
+                        className="form-control"
+                        type="text"
+                        id="name"
+                        placeholder="Best Case"
+                        style={{ marginLeft: "10px" }}
+                      />
+                    </div>
+
+                    <input
+                      style={{ marginTop: "10px" }}
+                      className="form-control"
+                      type="file"
+                      disabled={user === null}
+                      id="file"
+                    />
+
+                    <button
+                      className="btn btn-warning"
+                      style={{ marginTop: "10px" }}
+                      disabled={user === null}
+                      onClick={() => {}}
+                    >
                       Add Instance
                     </button>
                   </div>
                 </TabPanel>
                 <TabPanel>
-                  <div>
-                    <button
-                      className="btn btn-danger mx-auto"
-                      onClick={deleteAlgorithm}
-                    >
-                      Delete
-                    </button>
-                  </div>
+                  <h1>Benchmarks</h1>
+                </TabPanel>
+                <TabPanel>
+                  {isReclassifying ? (
+                    <Loading message="Reclassifying" />
+                  ) : (
+                    <div className="vbox">
+                      <div className="hbox" style={{ margin: "5px" }}>
+                        <button
+                          className="btn btn-warning mx-auto"
+                          style={{ marginRight: "5px" }}
+                          onClick={reclassify}
+                          disabled={user === null}
+                        >
+                          Reclassify
+                        </button>
+                        <select
+                          className="form-select"
+                          style={{ marginLeft: "5px" }}
+                          id="newClassification"
+                        >
+                          {classifications ? (
+                            flattenClassifications(classifications).map((c) => (
+                              <option
+                                key={c.id}
+                                value={c.id}
+                                disabled={c.id === algorithm.classification}
+                              >
+                                {c.name}
+                              </option>
+                            ))
+                          ) : (
+                            <></>
+                          )}
+                        </select>
+                      </div>
+                      <div style={{ margin: "5px" }}>
+                        <button
+                          className="btn btn-danger"
+                          onClick={deleteAlgorithm}
+                          disabled={user === null}
+                        >
+                          Delete
+                        </button>
+                      </div>
+                    </div>
+                  )}
                 </TabPanel>
               </Tabs>
             </div>

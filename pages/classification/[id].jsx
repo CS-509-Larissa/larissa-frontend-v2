@@ -7,12 +7,11 @@ import Link from "next/link";
 import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
 
 //import "react-tabs/style/react-tabs.scss";
-import { mutate } from "swr";
 import Loading from "../../components/Loading";
 
 const Classification = () => {
   const router = useRouter();
-  const { classifications } = useClassifications();
+  const { classifications, mutate } = useClassifications();
   const { id } = router.query;
 
   const classification = classifications
@@ -31,7 +30,7 @@ const Classification = () => {
     });
 
     console.log(await res.text());
-    mutate("/classifications");
+    mutate();
     router.push("/");
   };
 
@@ -80,9 +79,6 @@ const Classification = () => {
                   )}
                 </TabPanel>
                 <TabPanel>
-                  <div
-                    style={{ display: "flex", flexDirection: "column" }}
-                  ></div>
                   <div style={{ padding: "5px" }}>
                     <button className="btn btn-warning">Merge</button>
                     <select></select>

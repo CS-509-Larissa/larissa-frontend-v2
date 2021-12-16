@@ -6,12 +6,19 @@ $theme-colors: (
   "secondary": #e9ddd7,
   "warning": #ec821f,
   "danger": #c9231a,
+  "dark": #383838,
 );
 
 $body-bg: #282828;
 $body-color: #cecece;
 
 $content-bg: #383838;
+
+$table-bg: $content-bg;
+
+$table-accent-bg: #990000;
+
+//$table-color: #eaeaea;
 
 $padding: 20px;
 $radius: 5px;
@@ -38,11 +45,34 @@ $shadow: 0 0.5rem 1rem rgba($black, 0.15);
     cursor: pointer;
   }
 }
+tr:nth-child(odd) {
+  background-color: $content-bg;
+}
+tr:nth-child(even) {
+  background-color: $body-bg;
+}
+th,
+td {
+  padding: 0 5px 0 5px;
+  font-size: 14px;
+}
 
 .hbox {
   display: flex;
   flex-direction: row;
   align-items: center;
+  &--centered {
+    align-items: center;
+    text-align: center;
+    justify-content: center;
+  }
+}
+
+.vbox {
+  display: flex;
+  flex-direction: column;
+  align-items: left;
+  //border: 1px solid red;
   &--centered {
     align-items: center;
     text-align: center;
