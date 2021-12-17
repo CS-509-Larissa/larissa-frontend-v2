@@ -5,7 +5,7 @@ const useActivity = () => {
   const { data, mutate } = useSWR(`/activity`, fetcher);
   let activity = null;
 
-  console.log(data);
+  //console.log(data);
   try {
     activity = JSON.parse(data);
   } catch (error) {

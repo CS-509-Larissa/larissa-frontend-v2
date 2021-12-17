@@ -12,6 +12,8 @@ const useAlgorithm = (id) => {
     algorithm = null;
   }
 
+  console.log(algorithm);
+
   return { algorithm, mutate };
 };
 

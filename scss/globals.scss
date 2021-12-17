@@ -54,7 +54,15 @@ tr:nth-child(even) {
 th,
 td {
   padding: 0 5px 0 5px;
-  font-size: 14px;
+  //font-size: 14px;
+}
+
+.user-table {
+  font-size: 18px;
+}
+
+.benchmark-label {
+  min-width: 150px;
 }
 
 .hbox {
@@ -266,7 +274,7 @@ td {
 
 .global-container {
   padding: $padding;
-  max-width: 1200px;
+  max-width: 1400px;
   margin: 0 auto;
   //border: 1px solid red;
   display: flex;

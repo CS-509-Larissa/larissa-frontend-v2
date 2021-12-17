@@ -29,15 +29,17 @@ const ClassificationTree = (props) => {
       {props.classification.subClassifications.map((node, i) => (
         <ClassificationTree classification={node} key={node.id} />
       ))}
-      {props.classification.algorithms.map((node, i) => (
-        <span
-          className="algorithm-link"
-          onClick={() => router.push(`/algorithm/${node.id}`)}
-          key={node.id}
-        >
-          {node.name}
-        </span>
-      ))}
+      <div className="vbox">
+        {props.classification.algorithms.map((node, i) => (
+          <span
+            className="algorithm-link"
+            onClick={() => router.push(`/algorithm/${node.id}`)}
+            key={node.id}
+          >
+            {node.name}
+          </span>
+        ))}
+      </div>
     </TreeView>
   );
 };
@@ -98,7 +100,6 @@ const Tree = (props) => {
                 Classification
               </Dropdown.Item>
               <Dropdown.Item href="/add/algorithm">Algorithm</Dropdown.Item>
-              <Dropdown.Item>Benchmark</Dropdown.Item>
             </Dropdown.Menu>
           </Dropdown>
         </div>
